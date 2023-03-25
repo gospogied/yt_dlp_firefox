@@ -40,7 +40,7 @@ def send_message(encoded_message):
     sys.stdout.buffer.flush()
 
 
-DOWNLOADS = Path.home() / "Downloads"
+DOWNLOADS = Path.home() / "Muzyka"
 
 
 message = get_message()
@@ -51,7 +51,7 @@ if action == "test":
 elif action == "download":
     url = message["url"]
     p = run(
-        ["yt-dlp", "--print-json", "--", url],
+        ["yt-dlp", "-x", "--audio-format", "mp3", "--print-json", "--", url],
         capture_output=True,
         text=True,
         cwd=DOWNLOADS,
@@ -75,7 +75,7 @@ elif action == "open":
     reply = {"success": True}
 elif action == "show":
     path = message["path"]
-    Popen(["nautilus", "--", path])
+    Popen(["dolphin", "--", path])
     reply = {"success": True}
 else:
     print(f"Got unknown action: {message}", file=sys.stderr)
